@@ -8,7 +8,7 @@ The SnowballStemmer.jl package extracts the stemmer functionality of the `TextAn
 
 The TextAnalysis package can be installed using Julia's package manager:
 ```julia
-julia> Pkg.clone("repo-address")
+julia> Pkg.clone("https://github.com/sadit/SnowballStemmer.jl")
 ```
 
 # Getting Started
