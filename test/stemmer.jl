@@ -11,8 +11,8 @@ for alg in algs
     release(stmr)
 end
 
-test_cases = @compat Dict{String, Any}(
-    "english" => @compat Dict{String, String}(
+test_cases = Dict{String, Any}(
+    "english" => Dict{String, String}(
         "working" => "work",
         "worker" => "worker",
         "aβc" => "aβc",
