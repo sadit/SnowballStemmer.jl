@@ -2,11 +2,7 @@ SnowballStemmer.jl
 ===============
 
 
-The SnowballStemmer.jl package extracts the stemmer functionality of the `TextAnalysis.jl`.
-
-The idea is to provide a simpler interface to stemming without forcing your programs to follow the
-interfaces of `TextAnalysis.jl`, which is a great package but sometimes the text-modeling should
-be different.
+The SnowballStemmer.jl package extracts the stemmer functionality of the `TextAnalysis.jl` package. The idea is to expose the stemming functions without forcing your programs to follow the interfaces of `TextAnalysis.jl`.
 
 # Installation
 
