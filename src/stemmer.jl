@@ -55,8 +55,6 @@ function release(stm::Stemmer)
     nothing
 end
 
-stem(stemmer::Stemmer, word::String) = stem(stemmer, word)
-
 function stem(stemmer::Stemmer, bstr::String)::String
     sres = ccall((:sb_stemmer_stem, _libsb),
                 Ptr{UInt8},
@@ -68,7 +66,7 @@ function stem(stemmer::Stemmer, bstr::String)::String
     copy(bytes)
 end
 
-function stem(stemmer::Stemmer, word::SubString{String})
+function stem(stemmer::Stemmer, word::SubString{String})::String
     sres = ccall((:sb_stemmer_stem, _libsb),
                 Ptr{UInt8},
                 (Ptr{UInt8}, Ptr{UInt8}, Cint),
