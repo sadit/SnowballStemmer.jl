@@ -1,5 +1,17 @@
-using SnowballStemmer
-using Base.Test
+module TestTextAnalysis
+    using Base.Test
+    using SnowballStemmer
+    using Compat
 
-# write your own tests here
-@test 1 == 2
+    my_tests = [
+        "stemmer.jl",
+    ]
+
+    println("Running tests:")
+    println(typeof(Compat.String))
+
+    for my_test in my_tests
+        println(" * $(my_test)")
+        include(my_test)
+    end
+end

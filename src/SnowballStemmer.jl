@@ -1,5 +1,12 @@
+using DataFrames
+
 module SnowballStemmer
+using Languages
+using BinDeps
+# using Compat
 
-# package code goes here
+export stemmer_types, Stemmer, release
+export stem
 
-end # module
+include("stemmer.jl")
+ end
