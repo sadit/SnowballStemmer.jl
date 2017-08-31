@@ -23,14 +23,14 @@ end
 
 type Stemmer
     cptr::Ptr{Void}
-    alg::AbstractString
-    enc::AbstractString
+    alg::String
+    enc::String
 
-    function Stemmer(stemmer_type::AbstractString, charenc::AbstractString=UTF_8)
+    function Stemmer(stemmer_type::String, charenc::String=UTF_8)
         cptr = ccall((:sb_stemmer_new, _libsb),
                     Ptr{Void},
                     (Ptr{UInt8}, Ptr{UInt8}),
-                    String(stemmer_type), String(charenc))
+                    stemmer_type, charenc)
 
         if cptr == C_NULL
             if charenc == UTF_8
@@ -55,7 +55,7 @@ function release(stm::Stemmer)
     nothing
 end
 
-stem(stemmer::Stemmer, word::AbstractString) = stem(stemmer, String(word))
+stem(stemmer::Stemmer, word::String) = stem(stemmer, word)
 
 function stem(stemmer::Stemmer, bstr::String)::String
     sres = ccall((:sb_stemmer_stem, _libsb),
@@ -79,4 +79,3 @@ function stem(stemmer::Stemmer, word::SubString{String})
     #bytes = pointer_to_array(sres, @compat(Int(slen)), false)
     #bytestring(bytes)
 end
-
