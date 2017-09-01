@@ -2,13 +2,18 @@ SnowballStemmer.jl
 ===============
 
 
-The SnowballStemmer.jl package extracts the stemmer functionality of the `TextAnalysis.jl` package. The idea is to expose the stemming functions without forcing your programs to follow the interfaces of `TextAnalysis.jl`.
+The SnowballStemmer.jl package extracts the stemmer functionality of the `TextAnalysis.jl` package, which is also a wrapper for [libstemmer](http://snowball.tartarus.org/).
+The idea is to expose the stemming functions without forcing your programs to follow the interfaces of `TextAnalysis.jl`.
 
 # Installation
 
 The TextAnalysis package can be installed using Julia's package manager:
 ```julia
 julia> Pkg.clone("https://github.com/sadit/SnowballStemmer.jl")
+```
+you may also need to build the internal libraries
+```julia
+julia> Pkg.build("SnowballStemmer")
 ```
 
 # Getting Started
@@ -86,4 +91,4 @@ julia> [stem(e, x.match) for x in eachmatch(r"\w+", "browsing and searching are 
 ```
 
 # Advanced manipulation of text
-This package only provides stemming facilities. More advanced functionality can be found in `TextAnalysis.jl` or `TextModel.jl`
+This package only provides stemming facilities. More advanced functionality can be found in `TextAnalysis.jl` or `TextModel.jl`.
