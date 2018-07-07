@@ -1,7 +1,7 @@
 module SnowballStemmer
 
 using BinDeps
-# using Compat
+using Libdl
 
 export stemmer_types, Stemmer, release
 export stem
