@@ -1,5 +1,5 @@
 module TestTextAnalysis
-    using Base.Test
+    using Test
     using SnowballStemmer
 
     my_tests = [

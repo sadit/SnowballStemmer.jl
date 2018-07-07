@@ -1,5 +1,5 @@
 module TestStemmer
-using Base.Test
+using Test
 using SnowballStemmer
 
 algs = stemmer_types()

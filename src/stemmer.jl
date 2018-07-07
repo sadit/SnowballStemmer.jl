@@ -21,14 +21,14 @@ function stemmer_types()
     stypes
 end
 
-type Stemmer
-    cptr::Ptr{Void}
+mutable struct Stemmer
+    cptr::Ptr{Cvoid}
     alg::String
     enc::String
 
     function Stemmer(stemmer_type::String, charenc::String=UTF_8)
         cptr = ccall((:sb_stemmer_new, _libsb),
-                    Ptr{Void},
+                    Ptr{Cvoid},
                     (Ptr{UInt8}, Ptr{UInt8}),
                     stemmer_type, charenc)
 
@@ -41,7 +41,7 @@ type Stemmer
         end
 
         stm = new(cptr, stemmer_type, charenc)
-        finalizer(stm, release)
+        finalizer(release, stm)
         stm
     end
 end
@@ -50,7 +50,7 @@ show(io::IO, stm::Stemmer) = println(io, "Stemmer algorithm:$(stm.alg) encoding:
 
 function release(stm::Stemmer)
     (C_NULL == stm.cptr) && return
-    ccall((:sb_stemmer_delete, _libsb), Void, (Ptr{Void},), stm.cptr)
+    ccall((:sb_stemmer_delete, _libsb), Nothing, (Ptr{Cvoid},), stm.cptr)
     stm.cptr = C_NULL
     nothing
 end
@@ -61,19 +61,19 @@ function stem(stemmer::Stemmer, bstr::String)::String
                 (Ptr{UInt8}, Ptr{UInt8}, Cint),
                 stemmer.cptr, bstr, sizeof(bstr))
     (C_NULL == sres) && error("error in stemming")
-    slen = ccall((:sb_stemmer_length, _libsb), Cint, (Ptr{Void},), stemmer.cptr)
-    bytes = unsafe_wrap(Array, sres, Int(slen), false)
-    copy(bytes)
+    slen = ccall((:sb_stemmer_length, _libsb), Cint, (Ptr{Cvoid},), stemmer.cptr)
+    bytes = unsafe_wrap(Array, sres, Int(slen), own=false)
+    String(copy(bytes))
 end
 
 function stem(stemmer::Stemmer, word::SubString{String})::String
     sres = ccall((:sb_stemmer_stem, _libsb),
                 Ptr{UInt8},
                 (Ptr{UInt8}, Ptr{UInt8}, Cint),
-                stemmer.cptr, pointer(word.string)+word.offset, word.endof)
+                stemmer.cptr, pointer(word.string)+word.offset, lastindex(word))
     (C_NULL == sres) && error("error in stemming")
     unsafe_string(sres)
-    #slen = ccall((:sb_stemmer_length, _libsb), Cint, (Ptr{Void},), stemmer.cptr)
+    #slen = ccall((:sb_stemmer_length, _libsb), Cint, (Ptr{Cvoid},), stemmer.cptr)
     #bytes = pointer_to_array(sres, @compat(Int(slen)), false)
     #bytestring(bytes)
 end
