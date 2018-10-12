@@ -15,6 +15,6 @@ notifications:
     on_start: never     # options: [always|never|change] default: alway
 script:
     - if [[ -a .git/shallow ]]; then git fetch --unshallow; fi
-    - julia -e 'Pkg.add(pwd()); Pkg.build("SnowballStemmer"); Pkg.test("SnowballStemmer"; coverage=true)';
+    - julia -e 'using Pkg; Pkg.add(pwd()); Pkg.build("SnowballStemmer"); Pkg.test("SnowballStemmer"; coverage=true)';
 after_success:
-    - julia -e 'cd(Pkg.dir("SnowballStemmer")); Pkg.add("Coverage"); using Coverage; Coveralls.submit(Coveralls.process_folder())';
+    - julia -e 'using Pkg; cd(Pkg.dir("SnowballStemmer")); Pkg.add("Coverage"); using Coverage; Coveralls.submit(Coveralls.process_folder())';
