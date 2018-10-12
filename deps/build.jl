@@ -1,4 +1,7 @@
+using Base.Sys
 using BinDeps
+using Libdl
+
 # using Compat
 
 @BinDeps.setup
@@ -21,7 +24,7 @@ for path in [prefix, dnlddir, srchome, bindir]
 end
 
 if !isfile(binpath)
-    if is_unix()
+    if isunix()
         run(download_cmd("http://snowball.tartarus.org/dist/snowball_code.tgz",dnldfile))
         cd(srchome)
         run(`tar xvzf $dnldfile`)
@@ -39,7 +42,7 @@ if !isfile(binpath)
         end
     end
 
-    if is_windows()
+    if iswindows()
         Base.warn("No integrated stemmer available on Windows yet.\n" *
                   "Place a compiled Snowball stemmer dll at $binpath for stemming to work.")
     end
